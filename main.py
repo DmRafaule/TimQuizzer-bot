@@ -47,7 +47,7 @@ async def command_start_handler(message: Message) -> None:
 
 
 @bot_dispatcher.callback_query(F.data == "menu_"+menu[0])
-async def your_age(callback: types.CallbackQuery) -> None:
+async def your_age_handler(callback: types.CallbackQuery) -> None:
     builder = ReplyKeyboardBuilder()
     for age in ages:
         builder.add(types.KeyboardButton(text=age))
@@ -56,7 +56,7 @@ async def your_age(callback: types.CallbackQuery) -> None:
 
 
 @bot_dispatcher.message(F.text.startswith('от') | F.text.contains('до'))
-async def your_country(message: Message) -> None:
+async def your_country_handler(message: Message) -> None:
     user_values = {
             "user_id": message.from_user.id,
             "age": message.text,
@@ -78,7 +78,7 @@ async def your_country(message: Message) -> None:
 
 
 @bot_dispatcher.message(F.text.startswith('|') | F.text.endswith('|'))
-async def your_sex(message: Message) -> None:
+async def your_sex_handler(message: Message) -> None:
     start_pos = message.text.find(' ') + 1
     await update_user(message.from_user.id, 'country', message.text[start_pos:])
 
@@ -89,7 +89,7 @@ async def your_sex(message: Message) -> None:
 
 
 @bot_dispatcher.message(F.text.startswith('♂') | F.text.startswith('♀'))
-async def your_work(message: Message) -> None:
+async def your_work_handler(message: Message) -> None:
     start_pos = message.text.find(' ') + 1
     await update_user(message.from_user.id, 'sex', message.text[start_pos:])
 
@@ -105,7 +105,7 @@ async def your_work(message: Message) -> None:
 
 
 @bot_dispatcher.callback_query(F.data.startswith("work_"))
-async def your_car(callback: types.CallbackQuery) -> None:
+async def your_car_handler(callback: types.CallbackQuery) -> None:
     start_pos = callback.data.find('_') + 1
     await update_user(callback.from_user.id, 'work', callback.data[start_pos:])
 
@@ -116,7 +116,7 @@ async def your_car(callback: types.CallbackQuery) -> None:
 
 
 @bot_dispatcher.message(F.text.contains("машин"))
-async def end_quiz(message: Message) -> None:
+async def end_quiz_handler(message: Message) -> None:
     await update_user(message.from_user.id, 'car', message.text)
 
     if await is_user_completed(message.from_user.id):
@@ -161,12 +161,12 @@ async def setting_update_format_numbers(callback: types.CallbackQuery):
 
 
 @bot_dispatcher.message(Command("result"))
-async def result_command(message: Message) -> None:
+async def result_command_handler(message: Message) -> None:
     await result(message)
 
 
 @bot_dispatcher.callback_query(F.data == "menu_"+menu[1])
-async def result_callback(callback: types.CallbackQuery) -> None:
+async def result_callback_handler(callback: types.CallbackQuery) -> None:
     await result(callback.message)
 
 
@@ -203,9 +203,7 @@ async def result(message: Message) -> None:
 
 
 async def main() -> None:
-    # Initialize Bot with default parse mode which will be passed to all API calls
     bot = Bot(TOKEN, parse_mode=ParseMode.HTML)
-    # Start event dispatching
     await bot_dispatcher.start_polling(bot)
 
 
