@@ -140,12 +140,12 @@ async def end_quiz_handler(message: Message) -> None:
 
 
 @bot_dispatcher.callback_query(F.data == "menu_"+menu[2])
-async def setting_callback(callback: types.CallbackQuery):
+async def setting_callback_handler(callback: types.CallbackQuery):
     await setting(callback.message)
 
 
 @bot_dispatcher.message(Command("settings"))
-async def setting_command(message: Message) -> None:
+async def setting_command_handler(message: Message) -> None:
     await setting(message)
 
 
