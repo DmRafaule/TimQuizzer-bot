@@ -122,6 +122,9 @@ async def end_quiz_handler(message: Message) -> None:
     if await is_user_completed(message.from_user.id):
         with open(f"user_{message.from_user.id}.json", "r",  encoding="utf-8") as file:
             user_values = json.load(file)
+        if not os.path.exists(FILE):
+            with open(FILE, "a", encoding="utf-8") as file:
+                file.write("[]")
         with open(FILE, "r", encoding="utf-8") as file:
             users = json.load(file)
             users.append(user_values)
@@ -179,6 +182,12 @@ async def setting(message: Message) -> None:
 
 
 async def result(message: Message) -> None:
+    if not os.path.exists(FILE):
+        builder = InlineKeyboardBuilder()
+        builder.button(text="Начать", callback_data="menu_" + menu[0])
+        await message.answer("Извини, база данных пуста. Пройди опрос первым !", reply_markup=builder.as_markup())
+        return
+
     with open(FILE, "r", encoding="utf-8") as file:
         users = json.load(file)
     with open("result_template.md", "r", encoding="utf-8") as file:
