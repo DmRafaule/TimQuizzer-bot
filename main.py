@@ -52,7 +52,7 @@ async def your_age_handler(callback: types.CallbackQuery) -> None:
     for age in ages:
         builder.add(types.KeyboardButton(text=age))
     builder.adjust(1)
-    await callback.message.answer("Твой возраст? ", reply_markup=builder.as_markup())
+    await callback.message.answer("Твой возраст? ", reply_markup=builder.as_markup(one_time_keyboard=True))
 
 
 @bot_dispatcher.message(F.text.startswith('от') | F.text.contains('до'))
