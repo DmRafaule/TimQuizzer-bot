@@ -2,7 +2,7 @@
 
 ## This bot made for fun.
 You can use it as you wish. 
-This bot was created for the article on a website [Tim the Webmaster](https://timthewebmaster.com/en/how-to-make-quizzbot-using-aiogram)
+This bot was created for the article on a website [Tim the Webmaster](https://timthewebmaster.com/en/articles/quizbot-bot-for-telegram/)
 
 ## Basic features
 * Conduct a survey 
